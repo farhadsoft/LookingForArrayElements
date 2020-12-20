@@ -13,8 +13,65 @@ namespace LookingForArrayElements
         /// <returns>The number of occurrences of the <see cref="Array"/> elements that match the range criteria.</returns>
         public static int GetFloatsCount(float[] arrayToSearch, float[] rangeStart, float[] rangeEnd)
         {
-            // TODO #3. Implement the method using "for" statement.
-            throw new NotImplementedException();
+            if (arrayToSearch is null)
+            {
+                throw new ArgumentNullException(nameof(arrayToSearch));
+            }
+
+            if (rangeStart is null)
+            {
+                throw new ArgumentNullException(nameof(rangeStart));
+            }
+
+            if (rangeEnd is null)
+            {
+                throw new ArgumentNullException(nameof(rangeEnd));
+            }
+
+            if (Sum(rangeStart) > Sum(rangeEnd))
+            {
+                throw new ArgumentException("Range start value is greater than the range end value.");
+            }
+
+            if (rangeStart.Length != rangeEnd.Length)
+            {
+                throw new ArgumentException("Range starts and range ends contain different number of elements.");
+            }
+
+            if (arrayToSearch.Length == 0)
+            {
+                return 0;
+            }
+
+            int result = 0;
+            for (int i = 0; i < arrayToSearch.Length; i++)
+            {
+                for (int j = 0; j < rangeStart.Length; j++)
+                {
+                    if (arrayToSearch[i] >= rangeStart[j] && arrayToSearch[i] <= rangeEnd[j])
+                    {
+                        result++;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public static float Sum(float[] range)
+        {
+            if (range is null)
+            {
+                throw new ArgumentNullException(nameof(range));
+            }
+
+            float sum = 0;
+            for (int i = 0; i < range.Length; i++)
+            {
+                sum += range[i];
+            }
+
+            return sum;
         }
 
         /// <summary>
@@ -28,8 +85,71 @@ namespace LookingForArrayElements
         /// <returns>The number of occurrences of the <see cref="Array"/> elements that match the range criteria.</returns>
         public static int GetFloatsCount(float[] arrayToSearch, float[] rangeStart, float[] rangeEnd, int startIndex, int count)
         {
-            // TODO #4. Implement the method using "do..while" statements.
-            throw new NotImplementedException();
+            if (arrayToSearch is null)
+            {
+                throw new ArgumentNullException(nameof(arrayToSearch));
+            }
+
+            if (rangeStart is null)
+            {
+                throw new ArgumentNullException(nameof(rangeStart));
+            }
+
+            if (rangeEnd is null)
+            {
+                throw new ArgumentNullException(nameof(rangeStart));
+            }
+
+            if (rangeStart.Length != rangeEnd.Length)
+            {
+                throw new ArgumentException("Range starts and range ends contain different number of elements.");
+            }
+
+            if (Sum(rangeStart) > Sum(rangeEnd))
+            {
+                throw new ArgumentException("Range start value is greater than the range end value.");
+            }
+
+            if (startIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
+            }
+
+            if (startIndex + count > arrayToSearch.Length)
+            {
+                throw new ArgumentOutOfRangeException($"");
+            }
+
+            if (count == 0 || rangeStart.Length == 0)
+            {
+                return 0;
+            }
+
+            if (startIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
+            }
+
+            int result = 0;
+            int i = startIndex;
+            do
+            {
+                int j = 0;
+                do
+                {
+                    if (arrayToSearch[i] >= rangeStart[j] && arrayToSearch[i] <= rangeEnd[j])
+                    {
+                        result++;
+                    }
+                }
+                while (++j < rangeStart.Length);
+
+                i++;
+                count--;
+            }
+            while (i < arrayToSearch.Length && count > 0);
+
+            return result;
         }
     }
 }
